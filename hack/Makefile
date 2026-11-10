@@ -1,9 +1,13 @@
+HTTP=:6060
+
 .PHONY: fmt
 fmt:
-	@echo "Formatting code..."
-	@go fmt ./...
+	go fmt ./...
 
 .PHONY: test
 test:
-	@echo "Running tests..."
-	@go test -cover ./...
+	go test -cover ./...
+
+.PHONY: doc
+doc:
+	go tool godoc -http=$(HTTP)
