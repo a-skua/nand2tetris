@@ -2,30 +2,30 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// HalfADDER
+// HalfADDER returns the sum and carry of a + b.
 //
-// a | b | sum | carry
-// 0 | 0 |  0  |  0
-// 0 | 1 |  1  |  0
-// 1 | 0 |  1  |  0
-// 1 | 1 |  0  |  1
+//	a | b | sum | carry
+//	0 | 0 |  0  |  0
+//	0 | 1 |  1  |  0
+//	1 | 0 |  1  |  0
+//	1 | 1 |  0  |  1
 func HalfADDER(a, b builtin.Bit) (sum, carry builtin.Bit) {
 	sum = XOR(a, b)
 	carry = AND(a, b)
 	return
 }
 
-// FullADDER
+// FullADDER returns the sum and carry of a + b + c.
 //
-// a | b | c | sum | carry
-// 0 | 0 | 0 |  0  |  0
-// 0 | 0 | 1 |  1  |  0
-// 0 | 1 | 0 |  1  |  0
-// 0 | 1 | 1 |  0  |  1
-// 1 | 0 | 0 |  1  |  0
-// 1 | 0 | 1 |  0  |  1
-// 1 | 1 | 0 |  0  |  1
-// 1 | 1 | 1 |  1  |  1
+//	a | b | c | sum | carry
+//	0 | 0 | 0 |  0  |  0
+//	0 | 0 | 1 |  1  |  0
+//	0 | 1 | 0 |  1  |  0
+//	0 | 1 | 1 |  0  |  1
+//	1 | 0 | 0 |  1  |  0
+//	1 | 0 | 1 |  0  |  1
+//	1 | 1 | 0 |  0  |  1
+//	1 | 1 | 1 |  1  |  1
 func FullADDER(a, b, c builtin.Bit) (sum, carry builtin.Bit) {
 	ab, abCarry := HalfADDER(a, b)
 	sum, abcCarry := HalfADDER(ab, c)
@@ -33,9 +33,8 @@ func FullADDER(a, b, c builtin.Bit) (sum, carry builtin.Bit) {
 	return
 }
 
-// ADD16
-//
-// out = a + b (16-bit two's complement, index 0 is LSB, overflow is ignored)
+// ADD16 returns a + b as 16-bit two's complement.
+// Index 0 is the LSB. Overflow is ignored.
 func ADD16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
 	var c builtin.Bit
 	out[0], c = HalfADDER(a[0], b[0])

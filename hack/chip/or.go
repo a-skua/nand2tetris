@@ -2,25 +2,19 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// OR
+// OR returns a OR b.
 //
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 1
-// 1 | 0 | 1
-// 1 | 1 | 1
+//	a | b | out
+//	0 | 0 | 0
+//	0 | 1 | 1
+//	1 | 0 | 1
+//	1 | 1 | 1
 func OR(a, b builtin.Bit) (out builtin.Bit) {
 	out = NOT(AND(NOT(a), NOT(b)))
 	return
 }
 
-// OR16
-//
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 1
-// 1 | 0 | 1
-// 1 | 1 | 1
+// OR16 applies [OR] to each of the 16 bits.
 func OR16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
 	out[0] = OR(a[0], b[0])
 	out[1] = OR(a[1], b[1])
@@ -41,12 +35,7 @@ func OR16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
 	return
 }
 
-// OR8WAY
-//
-// a | b | c | d | e | f | g | h | out
-// 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0
-// 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 1
-// 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1
+// OR8WAY returns 1 if any of the 8 bits is 1.
 func OR8WAY(a [8]builtin.Bit) (out builtin.Bit) {
 	out = OR(
 		OR(

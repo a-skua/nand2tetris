@@ -2,26 +2,25 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// DMUX
+// DMUX routes in to a or b according to sel.
 //
-// sel | a  | b
-//
-//	0  | in | 0
-//	1  | 0  | in
+//	sel | a  | b
+//	0   | in | 0
+//	1   | 0  | in
 func DMUX(in, sel builtin.Bit) (a, b builtin.Bit) {
 	a = AND(NOT(sel), in)
 	b = AND(sel, in)
 	return
 }
 
-// DMUX4WAY
+// DMUX4WAY routes in to one of a-d according to sel.
+// sel is written MSB first (sel[0] is the LSB).
 //
-// sel | a  | b  | c  | d
-//
-//	00 | in | 0  | 0  | 0
-//	01 | 0  | in | 0  | 0
-//	10 | 0  | 0  | in | 0
-//	11 | 0  | 0  | 0  | in
+//	sel | a  | b  | c  | d
+//	00  | in | 0  | 0  | 0
+//	01  | 0  | in | 0  | 0
+//	10  | 0  | 0  | in | 0
+//	11  | 0  | 0  | 0  | in
 func DMUX4WAY(in builtin.Bit, sel [2]builtin.Bit) (a, b, c, d builtin.Bit) {
 	ab, cd := DMUX(in, sel[1])
 	a, b = DMUX(ab, sel[0])
@@ -29,10 +28,10 @@ func DMUX4WAY(in builtin.Bit, sel [2]builtin.Bit) (a, b, c, d builtin.Bit) {
 	return
 }
 
-// DMUX8WAY
+// DMUX8WAY routes in to one of a-h according to sel.
+// sel is written MSB first (sel[0] is the LSB).
 //
-// sel | a  | b  | c  | d  | e  | f  | g  | h
-//
+//	sel | a  | b  | c  | d  | e  | f  | g  | h
 //	000 | in | 0  | 0  | 0  | 0  | 0  | 0  | 0
 //	001 | 0  | in | 0  | 0  | 0  | 0  | 0  | 0
 //	010 | 0  | 0  | in | 0  | 0  | 0  | 0  | 0

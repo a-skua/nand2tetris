@@ -2,25 +2,19 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// AND
+// AND returns a AND b.
 //
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 0
-// 1 | 0 | 0
-// 1 | 1 | 1
+//	a | b | out
+//	0 | 0 | 0
+//	0 | 1 | 0
+//	1 | 0 | 0
+//	1 | 1 | 1
 func AND(a, b builtin.Bit) (out builtin.Bit) {
 	out = NOT(builtin.NAND(a, b))
 	return
 }
 
-// AND16
-//
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 0
-// 1 | 0 | 0
-// 1 | 1 | 1
+// AND16 applies [AND] to each of the 16 bits.
 func AND16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
 	out[0] = AND(a[0], b[0])
 	out[1] = AND(a[1], b[1])

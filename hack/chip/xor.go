@@ -2,25 +2,19 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// XOR
+// XOR returns a XOR b.
 //
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 1
-// 1 | 0 | 1
-// 1 | 1 | 0
+//	a | b | out
+//	0 | 0 | 0
+//	0 | 1 | 1
+//	1 | 0 | 1
+//	1 | 1 | 0
 func XOR(a, b builtin.Bit) (out builtin.Bit) {
 	out = AND(OR(a, b), NOT(AND(a, b)))
 	return
 }
 
-// XOR16
-//
-// a | b | out
-// 0 | 0 | 0
-// 0 | 1 | 1
-// 1 | 0 | 1
-// 1 | 1 | 0
+// XOR16 applies [XOR] to each of the 16 bits.
 func XOR16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
 	out[0] = XOR(a[0], b[0])
 	out[1] = XOR(a[1], b[1])

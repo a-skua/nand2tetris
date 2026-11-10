@@ -2,21 +2,17 @@ package chip
 
 import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 
-// NOT
+// NOT returns NOT in.
 //
-// in | out
-// 0  | 1
-// 1  | 0
+//	in | out
+//	0  | 1
+//	1  | 0
 func NOT(in builtin.Bit) (out builtin.Bit) {
 	out = builtin.NAND(in, in)
 	return
 }
 
-// NOT16
-//
-// in | out
-// 0  | 1
-// 1  | 0
+// NOT16 applies [NOT] to each of the 16 bits.
 func NOT16(in [16]builtin.Bit) (out [16]builtin.Bit) {
 	out[0] = NOT(in[0])
 	out[1] = NOT(in[1])
