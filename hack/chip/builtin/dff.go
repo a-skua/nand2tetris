@@ -5,11 +5,10 @@ type DFF struct {
 	bit Bit
 }
 
-// Clock returns the stored bit, then stores in if load is ON.
-func (d *DFF) Clock(load, in Bit) (out Bit) {
+// Clock returns the stored bit, then stores in.
+// That is, out(t) = in(t-1).
+func (d *DFF) Clock(in Bit) (out Bit) {
 	out = d.bit
-	if load == ON {
-		d.bit = in
-	}
+	d.bit = in
 	return
 }
