@@ -94,10 +94,10 @@ func run(name string, w io.Writer) error {
 
 	c := hack.New(program)
 	for _, s := range sets {
-		c.Memory.Clock(word(s.value), builtin.ON, address(s.address))
+		c.Memory.Clock(builtin.NewWord(int16(s.value)), builtin.ON, address(s.address))
 	}
 
-	executed, halted := execute(c, cycles, func(n int, pc [16]builtin.Pin) {
+	executed, halted := execute(c, cycles, func(n int, pc builtin.Word) {
 		if trace {
 			fmt.Fprintf(w, "%6d: ROM[%d]  ", n, toInt(pc))
 			printRegisters(w, c)
@@ -111,14 +111,14 @@ func run(name string, w io.Writer) error {
 	}
 	printRegisters(w, c)
 	for _, a := range addresses {
-		v := c.Memory.Clock(word(0), builtin.OFF, address(a))
+		v := c.Memory.Clock(builtin.Word{}, builtin.OFF, address(a))
 		fmt.Fprintf(w, "RAM[%d] = %d\n", a, int16(toInt(v)))
 	}
 	return nil
 }
 
 // state is the registers that determine the next instruction.
-type state struct{ pc, a, d [16]builtin.Pin }
+type state struct{ pc, a, d builtin.Word }
 
 func snapshot(c *hack.Computer) state {
 	return state{c.PC.Bits(), c.A.Bits(), c.D.Bits()}
@@ -130,7 +130,7 @@ func snapshot(c *hack.Computer) state {
 // A halt loop is detected when the registers return to the state of one or two
 // instructions before without any memory write in between; from then on the
 // computer repeats the same instructions forever (as long as Keyboard does not change).
-func execute(c *hack.Computer, limit int, step func(n int, pc [16]builtin.Pin)) (n int, halted bool) {
+func execute(c *hack.Computer, limit int, step func(n int, pc builtin.Word)) (n int, halted bool) {
 	if limit <= 0 {
 		return 0, false
 	}
@@ -160,8 +160,8 @@ func execute(c *hack.Computer, limit int, step func(n int, pc [16]builtin.Pin)) 
 }
 
 // writesMemory reports whether the instruction at pc writes to M.
-func writesMemory(c *hack.Computer, pc [16]builtin.Pin) bool {
-	in := c.ROM32K.Clock([16]builtin.Pin{}, builtin.OFF, [15]builtin.Pin(pc[0:15]))
+func writesMemory(c *hack.Computer, pc builtin.Word) bool {
+	in := c.ROM32K.Clock(builtin.Word{}, builtin.OFF, [15]builtin.Pin(pc[0:15]))
 	return in[15] == builtin.ON && in[3] == builtin.ON
 }
 
@@ -197,7 +197,7 @@ func parseProgram(r io.Reader) ([][16]builtin.Pin, error) {
 		if err != nil {
 			return nil, fmt.Errorf("line %d: %q is not a 16-bit word", line, s)
 		}
-		program = append(program, word(int(v)))
+		program = append(program, builtin.NewWord(int16(v)))
 	}
 	return program, sc.Err()
 }
@@ -264,20 +264,14 @@ func parseAddress(s string) (int, error) {
 	return int(a), nil
 }
 
-// word returns the low 16 bits of v (index 0 is the LSB).
-func word(v int) (out [16]builtin.Pin) {
-	for i := range out {
-		out[i] = builtin.Pin(v >> i & 1)
-	}
-	return
-}
-
+// address returns the low 15 bits of v as a memory address.
 func address(v int) [15]builtin.Pin {
-	w := word(v)
+	w := builtin.NewWord(int16(v))
 	return [15]builtin.Pin(w[0:15])
 }
 
-func toInt(w [16]builtin.Pin) (v int) {
+// toInt returns w as an unsigned integer.
+func toInt(w builtin.Word) (v int) {
 	for i, b := range w {
 		v |= int(b&1) << i
 	}
