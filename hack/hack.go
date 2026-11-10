@@ -14,10 +14,10 @@ type Computer struct {
 	ROM32K
 }
 
-// NewComputer returns a Computer with program stored in its ROM from address 0,
+// New returns a Computer with program stored in its ROM from address 0,
 // then resets it so that execution starts from ROM[0].
 // It panics if program is longer than 32768 words.
-func NewComputer(program [][16]builtin.Pin) *Computer {
+func New(program [][16]builtin.Pin) *Computer {
 	c := new(Computer)
 	c.ROM32K.load(program)
 	c.Reset()

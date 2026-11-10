@@ -120,13 +120,13 @@ func run(c *Computer, cycles int) (pcs [][16]builtin.Pin) {
 	return
 }
 
-func TestNewComputer(t *testing.T) {
-	c := NewComputer(prog(t,
+func TestNew(t *testing.T) {
+	c := New(prog(t,
 		"1110111111010000", // D=1
 	))
 	// The reset must not execute ROM[0].
 	if pc, a, d := c.PC.Bits(), c.A.Bits(), c.D.Bits(); pc != word(0) || a != word(0) || d != word(0) {
-		t.Errorf("after NewComputer: PC, A, D = %v, %v, %v; want all zero", pc, a, d)
+		t.Errorf("after New: PC, A, D = %v, %v, %v; want all zero", pc, a, d)
 	}
 
 	run(c, 1)
@@ -136,7 +136,7 @@ func TestNewComputer(t *testing.T) {
 }
 
 func TestComputerReset(t *testing.T) {
-	c := NewComputer(prog(t,
+	c := New(prog(t,
 		"1110111111010000", // 0: D=1
 		"0000000000000101", // 1: @5
 		"1110111111010000", // 2: D=1
@@ -150,7 +150,7 @@ func TestComputerReset(t *testing.T) {
 }
 
 func TestComputerAdd(t *testing.T) {
-	c := NewComputer(prog(t,
+	c := New(prog(t,
 		"0000000000000010", // @2
 		"1110110000010000", // D=A
 		"0000000000000011", // @3
@@ -196,7 +196,7 @@ func TestComputerMax(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(strconv.Itoa(tt.r0)+","+strconv.Itoa(tt.r1), func(t *testing.T) {
-			c := NewComputer(program)
+			c := New(program)
 			c.Memory.Clock(word(tt.r0), builtin.ON, addr(0))
 			c.Memory.Clock(word(tt.r1), builtin.ON, addr(1))
 			// Run until the halt loop (15: 0;JMP) is reached.

@@ -28,7 +28,7 @@ go run ./cmd/test [flags] program.hack
 ### 例
 
 ```sh
-$ go run ./cmd/test -set 0=6,1=7 -ram 0-2 cmd/test/testdata/Mult.hack
+$ go run ./cmd/test -set 0=6,1=7 -ram 0-2 testdata/Mult.hack
 halted after 80 cycles
 PC=14 A=14 D=0
 RAM[0] = 0
@@ -36,7 +36,7 @@ RAM[1] = 7
 RAM[2] = 42
 ```
 
-`cmd/test/testdata/` にサンプルプログラムがある（`.asm` はアセンブル前のソース）。
+`testdata/` にサンプルプログラムがある（`.asm` はアセンブル前のソース）。
 
 | ファイル | 内容 |
 | --- | --- |

@@ -92,7 +92,7 @@ func run(name string, w io.Writer) error {
 		return fmt.Errorf("%s: program is longer than 32768 words", name)
 	}
 
-	c := hack.NewComputer(program)
+	c := hack.New(program)
 	for _, s := range sets {
 		c.Memory.Clock(word(s.value), builtin.ON, address(s.address))
 	}
