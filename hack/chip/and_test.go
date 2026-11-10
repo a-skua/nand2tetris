@@ -8,8 +8,8 @@ import (
 func TestAND(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b builtin.Bit
-		want builtin.Bit
+		a, b builtin.Pin
+		want builtin.Pin
 	}{
 		{name: "AND(0,0)", a: 0, b: 0, want: 0},
 		{name: "AND(0,1)", a: 0, b: 1, want: 0},
@@ -30,20 +30,20 @@ func TestAND(t *testing.T) {
 func TestAND16(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b [16]builtin.Bit
-		want [16]builtin.Bit
+		a, b [16]builtin.Pin
+		want [16]builtin.Pin
 	}{
 		{
 			name: "AND16([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])",
-			a:    [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			b:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			want: [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			a:    [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			b:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			want: [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name: "AND16([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0])",
-			a:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			b:    [16]builtin.Bit{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-			want: [16]builtin.Bit{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+			a:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			b:    [16]builtin.Pin{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+			want: [16]builtin.Pin{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
 		},
 	}
 

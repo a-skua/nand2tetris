@@ -17,7 +17,7 @@ type CPU struct {
 // inM is the value of M (RAM[A]). outM is written to addressM if writeM is 1.
 // addressM and pc are the values of A and PC before the update.
 // If reset is 1, PC is set to 0.
-func (c *CPU) Clock(instruction, inM [16]builtin.Bit, reset builtin.Bit) (outM [16]builtin.Bit, writeM builtin.Bit, addressM, pc [16]builtin.Bit) {
+func (c *CPU) Clock(instruction, inM [16]builtin.Pin, reset builtin.Pin) (outM [16]builtin.Pin, writeM builtin.Pin, addressM, pc [16]builtin.Pin) {
 	isC := instruction[15]
 	isA := chip.NOT(isC)
 	a := c.A.Bits()

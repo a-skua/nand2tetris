@@ -8,20 +8,20 @@ import (
 )
 
 // word returns v as a 16-bit value (index 0 is the LSB).
-func word(v int) (out [16]builtin.Bit) {
+func word(v int) (out [16]builtin.Pin) {
 	for i := range out {
-		out[i] = builtin.Bit(v >> i & 1)
+		out[i] = builtin.Pin(v >> i & 1)
 	}
 	return
 }
 
-func addr(v int) [15]builtin.Bit {
+func addr(v int) [15]builtin.Pin {
 	w := word(v)
-	return [15]builtin.Bit(w[0:15])
+	return [15]builtin.Pin(w[0:15])
 }
 
 // inst parses a Hack machine code line such as "1110110000010000".
-func inst(t *testing.T, s string) [16]builtin.Bit {
+func inst(t *testing.T, s string) [16]builtin.Pin {
 	t.Helper()
 	v, err := strconv.ParseUint(s, 2, 16)
 	if err != nil {
@@ -36,9 +36,9 @@ func TestCPU(t *testing.T) {
 		name         string
 		instruction  string
 		inM          int
-		reset        builtin.Bit
+		reset        builtin.Pin
 		wantOutM     int
-		wantWriteM   builtin.Bit
+		wantWriteM   builtin.Pin
 		wantAddressM int
 		wantPC       int
 		wantA, wantD int
@@ -100,9 +100,9 @@ func TestMemory(t *testing.T) {
 }
 
 // prog parses Hack machine code lines.
-func prog(t *testing.T, lines ...string) [][16]builtin.Bit {
+func prog(t *testing.T, lines ...string) [][16]builtin.Pin {
 	t.Helper()
-	words := make([][16]builtin.Bit, len(lines))
+	words := make([][16]builtin.Pin, len(lines))
 	for i, s := range lines {
 		words[i] = inst(t, s)
 	}
@@ -204,7 +204,7 @@ func TestComputerMax(t *testing.T) {
 
 func TestROM32K(t *testing.T) {
 	var rom ROM32K
-	rom.load([][16]builtin.Bit{word(10), word(11), word(12)})
+	rom.load([][16]builtin.Pin{word(10), word(11), word(12)})
 	rom.Clock(word(20), builtin.ON, addr(0x4000))
 	rom.Clock(word(21), builtin.ON, addr(0x7FFF))
 
@@ -226,5 +226,5 @@ func TestROM32KLoadPanics(t *testing.T) {
 		}
 	}()
 	var rom ROM32K
-	rom.load(make([][16]builtin.Bit, 1<<15+1))
+	rom.load(make([][16]builtin.Pin, 1<<15+1))
 }

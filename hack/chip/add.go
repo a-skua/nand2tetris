@@ -9,7 +9,7 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	0 | 1 |  1  |  0
 //	1 | 0 |  1  |  0
 //	1 | 1 |  0  |  1
-func HalfADDER(a, b builtin.Bit) (sum, carry builtin.Bit) {
+func HalfADDER(a, b builtin.Pin) (sum, carry builtin.Pin) {
 	sum = XOR(a, b)
 	carry = AND(a, b)
 	return
@@ -26,7 +26,7 @@ func HalfADDER(a, b builtin.Bit) (sum, carry builtin.Bit) {
 //	1 | 0 | 1 |  0  |  1
 //	1 | 1 | 0 |  0  |  1
 //	1 | 1 | 1 |  1  |  1
-func FullADDER(a, b, c builtin.Bit) (sum, carry builtin.Bit) {
+func FullADDER(a, b, c builtin.Pin) (sum, carry builtin.Pin) {
 	ab, abCarry := HalfADDER(a, b)
 	sum, abcCarry := HalfADDER(ab, c)
 	carry = OR(abCarry, abcCarry)
@@ -35,8 +35,8 @@ func FullADDER(a, b, c builtin.Bit) (sum, carry builtin.Bit) {
 
 // ADD16 returns a + b as 16-bit two's complement.
 // Index 0 is the LSB. Overflow is ignored.
-func ADD16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
-	var c builtin.Bit
+func ADD16(a, b [16]builtin.Pin) (out [16]builtin.Pin) {
+	var c builtin.Pin
 	out[0], c = HalfADDER(a[0], b[0])
 	out[1], c = FullADDER(a[1], b[1], c)
 	out[2], c = FullADDER(a[2], b[2], c)

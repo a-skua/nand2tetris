@@ -7,13 +7,13 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	in | out
 //	0  | 1
 //	1  | 0
-func NOT(in builtin.Bit) (out builtin.Bit) {
+func NOT(in builtin.Pin) (out builtin.Pin) {
 	out = builtin.NAND(in, in)
 	return
 }
 
 // NOT16 applies [NOT] to each of the 16 bits.
-func NOT16(in [16]builtin.Bit) (out [16]builtin.Bit) {
+func NOT16(in [16]builtin.Pin) (out [16]builtin.Pin) {
 	out[0] = NOT(in[0])
 	out[1] = NOT(in[1])
 	out[2] = NOT(in[2])

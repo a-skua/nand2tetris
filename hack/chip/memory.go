@@ -8,8 +8,8 @@ type Bit struct {
 }
 
 // Clock returns the stored bit, then stores in if load is 1.
-func (b *Bit) Clock(in, load builtin.Bit) (out builtin.Bit) {
-	out = b.DFF.Clock(MUX(b.Bit, in, load))
+func (b *Bit) Clock(in, load builtin.Pin) (out builtin.Pin) {
+	out = b.DFF.Clock(MUX(b.Pin, in, load))
 	return
 }
 
@@ -19,28 +19,28 @@ type Register struct {
 }
 
 // Bits returns the stored value without clocking.
-func (r *Register) Bits() (out [16]builtin.Bit) {
-	out[0] = r.bits[0].Bit
-	out[1] = r.bits[1].Bit
-	out[2] = r.bits[2].Bit
-	out[3] = r.bits[3].Bit
-	out[4] = r.bits[4].Bit
-	out[5] = r.bits[5].Bit
-	out[6] = r.bits[6].Bit
-	out[7] = r.bits[7].Bit
-	out[8] = r.bits[8].Bit
-	out[9] = r.bits[9].Bit
-	out[10] = r.bits[10].Bit
-	out[11] = r.bits[11].Bit
-	out[12] = r.bits[12].Bit
-	out[13] = r.bits[13].Bit
-	out[14] = r.bits[14].Bit
-	out[15] = r.bits[15].Bit
+func (r *Register) Bits() (out [16]builtin.Pin) {
+	out[0] = r.bits[0].Pin
+	out[1] = r.bits[1].Pin
+	out[2] = r.bits[2].Pin
+	out[3] = r.bits[3].Pin
+	out[4] = r.bits[4].Pin
+	out[5] = r.bits[5].Pin
+	out[6] = r.bits[6].Pin
+	out[7] = r.bits[7].Pin
+	out[8] = r.bits[8].Pin
+	out[9] = r.bits[9].Pin
+	out[10] = r.bits[10].Pin
+	out[11] = r.bits[11].Pin
+	out[12] = r.bits[12].Pin
+	out[13] = r.bits[13].Pin
+	out[14] = r.bits[14].Pin
+	out[15] = r.bits[15].Pin
 	return
 }
 
 // Clock returns the stored value, then stores in if load is 1.
-func (r *Register) Clock(in [16]builtin.Bit, load builtin.Bit) (out [16]builtin.Bit) {
+func (r *Register) Clock(in [16]builtin.Pin, load builtin.Pin) (out [16]builtin.Pin) {
 	out[0] = r.bits[0].Clock(in[0], load)
 	out[1] = r.bits[1].Clock(in[1], load)
 	out[2] = r.bits[2].Clock(in[2], load)
@@ -66,7 +66,7 @@ type RAM8 struct {
 }
 
 // Clock returns the register at address, then stores in there if load is 1.
-func (r *RAM8) Clock(in [16]builtin.Bit, load builtin.Bit, address [3]builtin.Bit) (out [16]builtin.Bit) {
+func (r *RAM8) Clock(in [16]builtin.Pin, load builtin.Pin, address [3]builtin.Pin) (out [16]builtin.Pin) {
 	// Decode the address to select which register to load.
 	l0, l1, l2, l3, l4, l5, l6, l7 := DMUX8WAY(load, address)
 
@@ -92,8 +92,8 @@ type RAM64 struct {
 
 // Clock returns the register at address, then stores in there if load is 1.
 // address[0:3] selects the register in a [RAM8] and address[3:6] selects the RAM8.
-func (r *RAM64) Clock(in [16]builtin.Bit, load builtin.Bit, address [6]builtin.Bit) (out [16]builtin.Bit) {
-	low, high := [3]builtin.Bit(address[0:3]), [3]builtin.Bit(address[3:6])
+func (r *RAM64) Clock(in [16]builtin.Pin, load builtin.Pin, address [6]builtin.Pin) (out [16]builtin.Pin) {
+	low, high := [3]builtin.Pin(address[0:3]), [3]builtin.Pin(address[3:6])
 	l0, l1, l2, l3, l4, l5, l6, l7 := DMUX8WAY(load, high)
 	out = MUX8WAY16(
 		r.rams[0].Clock(in, l0, low),
@@ -116,8 +116,8 @@ type RAM512 struct {
 
 // Clock returns the register at address, then stores in there if load is 1.
 // address[0:6] selects the register in a [RAM64] and address[6:9] selects the RAM64.
-func (r *RAM512) Clock(in [16]builtin.Bit, load builtin.Bit, address [9]builtin.Bit) (out [16]builtin.Bit) {
-	low, high := [6]builtin.Bit(address[0:6]), [3]builtin.Bit(address[6:9])
+func (r *RAM512) Clock(in [16]builtin.Pin, load builtin.Pin, address [9]builtin.Pin) (out [16]builtin.Pin) {
+	low, high := [6]builtin.Pin(address[0:6]), [3]builtin.Pin(address[6:9])
 	l0, l1, l2, l3, l4, l5, l6, l7 := DMUX8WAY(load, high)
 	out = MUX8WAY16(
 		r.rams[0].Clock(in, l0, low),
@@ -140,8 +140,8 @@ type RAM4K struct {
 
 // Clock returns the register at address, then stores in there if load is 1.
 // address[0:9] selects the register in a [RAM512] and address[9:12] selects the RAM512.
-func (r *RAM4K) Clock(in [16]builtin.Bit, load builtin.Bit, address [12]builtin.Bit) (out [16]builtin.Bit) {
-	low, high := [9]builtin.Bit(address[0:9]), [3]builtin.Bit(address[9:12])
+func (r *RAM4K) Clock(in [16]builtin.Pin, load builtin.Pin, address [12]builtin.Pin) (out [16]builtin.Pin) {
+	low, high := [9]builtin.Pin(address[0:9]), [3]builtin.Pin(address[9:12])
 	l0, l1, l2, l3, l4, l5, l6, l7 := DMUX8WAY(load, high)
 	out = MUX8WAY16(
 		r.rams[0].Clock(in, l0, low),
@@ -162,8 +162,8 @@ type RAM8K [2]RAM4K
 
 // Clock returns the register at address, then stores in there if load is 1.
 // address[0:12] selects the register in a [RAM4K] and address[12] selects the RAM4K.
-func (r *RAM8K) Clock(in [16]builtin.Bit, load builtin.Bit, address [13]builtin.Bit) (out [16]builtin.Bit) {
-	low := [12]builtin.Bit(address[0:12])
+func (r *RAM8K) Clock(in [16]builtin.Pin, load builtin.Pin, address [13]builtin.Pin) (out [16]builtin.Pin) {
+	low := [12]builtin.Pin(address[0:12])
 	l0, l1 := DMUX(load, address[12])
 	out = MUX16(
 		r[0].Clock(in, l0, low),
@@ -180,8 +180,8 @@ type RAM16K struct {
 
 // Clock returns the register at address, then stores in there if load is 1.
 // address[0:12] selects the register in a [RAM4K] and address[12:14] selects the RAM4K.
-func (r *RAM16K) Clock(in [16]builtin.Bit, load builtin.Bit, address [14]builtin.Bit) (out [16]builtin.Bit) {
-	low, high := [12]builtin.Bit(address[0:12]), [2]builtin.Bit(address[12:14])
+func (r *RAM16K) Clock(in [16]builtin.Pin, load builtin.Pin, address [14]builtin.Pin) (out [16]builtin.Pin) {
+	low, high := [12]builtin.Pin(address[0:12]), [2]builtin.Pin(address[12:14])
 	l0, l1, l2, l3 := DMUX4WAY(load, high)
 	out = MUX4WAY16(
 		r.rams[0].Clock(in, l0, low),
@@ -206,11 +206,11 @@ type PC struct {
 //	0     | 1    | -   | in
 //	0     | 0    | 1   | out+1
 //	0     | 0    | 0   | out
-func (p *PC) Clock(in [16]builtin.Bit, load, inc, reset builtin.Bit) (out [16]builtin.Bit) {
+func (p *PC) Clock(in [16]builtin.Pin, load, inc, reset builtin.Pin) (out [16]builtin.Pin) {
 	now := p.Bits()
-	next := MUX16(now, ADD16(now, [16]builtin.Bit{1}), inc)
+	next := MUX16(now, ADD16(now, [16]builtin.Pin{1}), inc)
 	next = MUX16(next, in, load)
-	next = MUX16(next, [16]builtin.Bit{}, reset)
+	next = MUX16(next, [16]builtin.Pin{}, reset)
 	out = p.Register.Clock(next, OR(reset, OR(load, inc)))
 	return
 }

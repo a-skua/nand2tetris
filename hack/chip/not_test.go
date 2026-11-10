@@ -8,8 +8,8 @@ import (
 func TestNOT(t *testing.T) {
 	tests := []struct {
 		name string
-		in   builtin.Bit
-		want builtin.Bit
+		in   builtin.Pin
+		want builtin.Pin
 	}{
 		{name: "NOT(0)", in: 0, want: 1},
 		{name: "NOT(1)", in: 1, want: 0},
@@ -28,23 +28,23 @@ func TestNOT(t *testing.T) {
 func TestNOT16(t *testing.T) {
 	tests := []struct {
 		name string
-		in   [16]builtin.Bit
-		want [16]builtin.Bit
+		in   [16]builtin.Pin
+		want [16]builtin.Pin
 	}{
 		{
 			name: "NOT16([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])",
-			in:   [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			want: [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			in:   [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			want: [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		},
 		{
 			name: "NOT16([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])",
-			in:   [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			want: [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			in:   [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			want: [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name: "NOT16([0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1])",
-			in:   [16]builtin.Bit{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-			want: [16]builtin.Bit{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+			in:   [16]builtin.Pin{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+			want: [16]builtin.Pin{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
 		},
 	}
 

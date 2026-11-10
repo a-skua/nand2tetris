@@ -8,8 +8,8 @@ import (
 func TestOR(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b builtin.Bit
-		want builtin.Bit
+		a, b builtin.Pin
+		want builtin.Pin
 	}{
 		{name: "OR(0,0)", a: 0, b: 0, want: 0},
 		{name: "OR(0,1)", a: 0, b: 1, want: 1},
@@ -30,26 +30,26 @@ func TestOR(t *testing.T) {
 func TestOR16(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b [16]builtin.Bit
-		want [16]builtin.Bit
+		a, b [16]builtin.Pin
+		want [16]builtin.Pin
 	}{
 		{
 			name: "OR16([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])",
-			a:    [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			b:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			want: [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			a:    [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			b:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			want: [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		},
 		{
 			name: "OR16([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])",
-			a:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			b:    [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			want: [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			a:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			b:    [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			want: [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		},
 		{
 			name: "OR16([0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1], [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0])",
-			a:    [16]builtin.Bit{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
-			b:    [16]builtin.Bit{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
-			want: [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			a:    [16]builtin.Pin{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+			b:    [16]builtin.Pin{1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+			want: [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		},
 	}
 
@@ -66,27 +66,27 @@ func TestOR16(t *testing.T) {
 func TestOR8WAY(t *testing.T) {
 	tests := []struct {
 		name string
-		a    [8]builtin.Bit
-		want builtin.Bit
+		a    [8]builtin.Pin
+		want builtin.Pin
 	}{
 		{
 			name: "OR8WAY([0,0,0,0,0,0,0,0])",
-			a:    [8]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0},
+			a:    [8]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0},
 			want: 0,
 		},
 		{
 			name: "OR8WAY([1,1,1,1,1,1,1,1])",
-			a:    [8]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1},
+			a:    [8]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1},
 			want: 1,
 		},
 		{
 			name: "OR8WAY([0,0,0,0,0,0,0,1])",
-			a:    [8]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 1},
+			a:    [8]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 1},
 			want: 1,
 		},
 		{
 			name: "OR8WAY([1,0,0,0,0,0,0,0])",
-			a:    [8]builtin.Bit{1, 0, 0, 0, 0, 0, 0, 0},
+			a:    [8]builtin.Pin{1, 0, 0, 0, 0, 0, 0, 0},
 			want: 1,
 		},
 	}

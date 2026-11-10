@@ -8,8 +8,8 @@ import (
 func TestXOR(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b builtin.Bit
-		want builtin.Bit
+		a, b builtin.Pin
+		want builtin.Pin
 	}{
 		{name: "XOR(0,0)", a: 0, b: 0, want: 0},
 		{name: "XOR(0,1)", a: 0, b: 1, want: 1},

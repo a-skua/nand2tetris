@@ -5,16 +5,16 @@ import (
 	"testing"
 )
 
-func toBits16(v int16) (out [16]builtin.Bit) {
+func toBits16(v int16) (out [16]builtin.Pin) {
 	for i := range out {
-		out[i] = builtin.Bit((uint16(v) >> i) & 1)
+		out[i] = builtin.Pin((uint16(v) >> i) & 1)
 	}
 	return
 }
 
 func TestALU(t *testing.T) {
 	type control struct {
-		zx, nx, zy, ny, f, no builtin.Bit
+		zx, nx, zy, ny, f, no builtin.Pin
 	}
 	funcs := []struct {
 		name string
@@ -57,7 +57,7 @@ func TestALU(t *testing.T) {
 				out, zr, ng := ALU(toBits16(in.x), toBits16(in.y), c.zx, c.nx, c.zy, c.ny, c.f, c.no)
 
 				v := fn.want(in.x, in.y)
-				var wantZr, wantNg builtin.Bit
+				var wantZr, wantNg builtin.Pin
 				if v == 0 {
 					wantZr = 1
 				}

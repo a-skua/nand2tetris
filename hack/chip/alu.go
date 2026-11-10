@@ -24,8 +24,8 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	0  | 0  | 0  | 1  | 1 | 1  | y-x
 //	0  | 0  | 0  | 0  | 0 | 0  | x&y
 //	0  | 1  | 0  | 1  | 0 | 1  | x|y
-func ALU(x, y [16]builtin.Bit, zx, nx, zy, ny, f, no builtin.Bit) (out [16]builtin.Bit, zr, ng builtin.Bit) {
-	var zero [16]builtin.Bit
+func ALU(x, y [16]builtin.Pin, zx, nx, zy, ny, f, no builtin.Pin) (out [16]builtin.Pin, zr, ng builtin.Pin) {
+	var zero [16]builtin.Pin
 
 	// if zx then x = 0
 	// if nx then x = !x
@@ -44,8 +44,8 @@ func ALU(x, y [16]builtin.Bit, zx, nx, zy, ny, f, no builtin.Bit) (out [16]built
 	out = MUX16(out, NOT16(out), no)
 
 	zr = NOT(OR(
-		OR8WAY([8]builtin.Bit(out[0:8])),
-		OR8WAY([8]builtin.Bit(out[8:16])),
+		OR8WAY([8]builtin.Pin(out[0:8])),
+		OR8WAY([8]builtin.Pin(out[8:16])),
 	))
 	ng = out[15]
 	return

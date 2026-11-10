@@ -7,8 +7,8 @@ import (
 func TestNAND(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b Bit
-		want Bit
+		a, b Pin
+		want Pin
 	}{
 		{name: "NAND(0,0)", a: 0, b: 0, want: 1},
 		{name: "NAND(0,1)", a: 0, b: 1, want: 1},

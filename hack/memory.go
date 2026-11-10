@@ -19,14 +19,14 @@ type Memory struct {
 
 // Clock returns the value at address, then stores in there if load is 1.
 // Keyboard is read-only.
-func (m *Memory) Clock(in [16]builtin.Bit, load builtin.Bit, address [15]builtin.Bit) (out [16]builtin.Bit) {
+func (m *Memory) Clock(in [16]builtin.Pin, load builtin.Pin, address [15]builtin.Pin) (out [16]builtin.Pin) {
 	loadRAM, loadIO := chip.DMUX(load, address[14])
 	loadScreen, _ := chip.DMUX(loadIO, address[13])
 
 	out = chip.MUX16(
-		m.RAM16K.Clock(in, loadRAM, [14]builtin.Bit(address[0:14])),
+		m.RAM16K.Clock(in, loadRAM, [14]builtin.Pin(address[0:14])),
 		chip.MUX16(
-			m.Screen.Clock(in, loadScreen, [13]builtin.Bit(address[0:13])),
+			m.Screen.Clock(in, loadScreen, [13]builtin.Pin(address[0:13])),
 			m.Keyboard.Bits(),
 			address[13],
 		),

@@ -8,8 +8,8 @@ import (
 func TestHalfADDER(t *testing.T) {
 	tests := []struct {
 		name               string
-		a, b               builtin.Bit
-		wantSum, wantCarry builtin.Bit
+		a, b               builtin.Pin
+		wantSum, wantCarry builtin.Pin
 	}{
 		{name: "HalfADDER(0,0)", a: 0, b: 0, wantSum: 0, wantCarry: 0},
 		{name: "HalfADDER(0,1)", a: 0, b: 1, wantSum: 1, wantCarry: 0},
@@ -30,8 +30,8 @@ func TestHalfADDER(t *testing.T) {
 func TestFullADDER(t *testing.T) {
 	tests := []struct {
 		name               string
-		a, b, c            builtin.Bit
-		wantSum, wantCarry builtin.Bit
+		a, b, c            builtin.Pin
+		wantSum, wantCarry builtin.Pin
 	}{
 		{name: "FullADDER(0,0,0)", a: 0, b: 0, c: 0, wantSum: 0, wantCarry: 0},
 		{name: "FullADDER(0,0,1)", a: 0, b: 0, c: 1, wantSum: 1, wantCarry: 0},
@@ -56,38 +56,38 @@ func TestFullADDER(t *testing.T) {
 func TestADD16(t *testing.T) {
 	tests := []struct {
 		name string
-		a, b [16]builtin.Bit
-		want [16]builtin.Bit
+		a, b [16]builtin.Pin
+		want [16]builtin.Pin
 	}{
 		{
 			name: "ADD16(0, 0) = 0",
-			a:    [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			b:    [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			want: [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			a:    [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			b:    [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			want: [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name: "ADD16(1, 1) = 2",
-			a:    [16]builtin.Bit{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			b:    [16]builtin.Bit{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			want: [16]builtin.Bit{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			a:    [16]builtin.Pin{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			b:    [16]builtin.Pin{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			want: [16]builtin.Pin{0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name: "ADD16(0x1234, 0x9876) = 0xAAAA",
-			a:    [16]builtin.Bit{0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-			b:    [16]builtin.Bit{0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1},
-			want: [16]builtin.Bit{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
+			a:    [16]builtin.Pin{0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+			b:    [16]builtin.Pin{0, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1},
+			want: [16]builtin.Pin{0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1},
 		},
 		{
 			name: "ADD16(-1, 1) = 0 (overflow is ignored)",
-			a:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			b:    [16]builtin.Bit{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-			want: [16]builtin.Bit{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			a:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			b:    [16]builtin.Pin{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+			want: [16]builtin.Pin{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 		},
 		{
 			name: "ADD16(-1, -1) = -2",
-			a:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			b:    [16]builtin.Bit{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-			want: [16]builtin.Bit{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			a:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			b:    [16]builtin.Pin{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+			want: [16]builtin.Pin{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 		},
 	}
 

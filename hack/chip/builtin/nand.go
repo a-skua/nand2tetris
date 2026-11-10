@@ -7,7 +7,7 @@ package builtin
 //	0 | 1 | 1
 //	1 | 0 | 1
 //	1 | 1 | 0
-func NAND(a, b Bit) (out Bit) {
-	out = NewBit(^(a & b))
+func NAND(a, b Pin) (out Pin) {
+	out = NewPin(^(a & b))
 	return
 }

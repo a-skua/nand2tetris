@@ -9,13 +9,13 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	0 | 1 | 0
 //	1 | 0 | 0
 //	1 | 1 | 1
-func AND(a, b builtin.Bit) (out builtin.Bit) {
+func AND(a, b builtin.Pin) (out builtin.Pin) {
 	out = NOT(builtin.NAND(a, b))
 	return
 }
 
 // AND16 applies [AND] to each of the 16 bits.
-func AND16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
+func AND16(a, b [16]builtin.Pin) (out [16]builtin.Pin) {
 	out[0] = AND(a[0], b[0])
 	out[1] = AND(a[1], b[1])
 	out[2] = AND(a[2], b[2])

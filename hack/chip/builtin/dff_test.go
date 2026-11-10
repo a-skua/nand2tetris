@@ -8,7 +8,7 @@ func TestDFF(t *testing.T) {
 	var dff DFF
 	tests := []struct {
 		name     string
-		in, want Bit
+		in, want Pin
 	}{
 		{name: "Clock(1)", in: ON, want: OFF},
 		{name: "Clock(0)", in: OFF, want: ON},

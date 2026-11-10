@@ -9,13 +9,13 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	0 | 1 | 1
 //	1 | 0 | 1
 //	1 | 1 | 0
-func XOR(a, b builtin.Bit) (out builtin.Bit) {
+func XOR(a, b builtin.Pin) (out builtin.Pin) {
 	out = AND(OR(a, b), NOT(AND(a, b)))
 	return
 }
 
 // XOR16 applies [XOR] to each of the 16 bits.
-func XOR16(a, b [16]builtin.Bit) (out [16]builtin.Bit) {
+func XOR16(a, b [16]builtin.Pin) (out [16]builtin.Pin) {
 	out[0] = XOR(a[0], b[0])
 	out[1] = XOR(a[1], b[1])
 	out[2] = XOR(a[2], b[2])

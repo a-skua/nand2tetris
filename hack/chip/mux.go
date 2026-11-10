@@ -7,13 +7,13 @@ import "github.com/a-skua/nand2tetris/hack/chip/builtin"
 //	sel | out
 //	0   | a
 //	1   | b
-func MUX(a, b, sel builtin.Bit) (out builtin.Bit) {
+func MUX(a, b, sel builtin.Pin) (out builtin.Pin) {
 	out = OR(AND(NOT(sel), a), AND(sel, b))
 	return
 }
 
 // MUX16 is a 16-bit [MUX].
-func MUX16(a, b [16]builtin.Bit, sel builtin.Bit) (out [16]builtin.Bit) {
+func MUX16(a, b [16]builtin.Pin, sel builtin.Pin) (out [16]builtin.Pin) {
 	out[0] = MUX(a[0], b[0], sel)
 	out[1] = MUX(a[1], b[1], sel)
 	out[2] = MUX(a[2], b[2], sel)
@@ -41,7 +41,7 @@ func MUX16(a, b [16]builtin.Bit, sel builtin.Bit) (out [16]builtin.Bit) {
 //	01  | b
 //	10  | c
 //	11  | d
-func MUX4WAY16(a, b, c, d [16]builtin.Bit, sel [2]builtin.Bit) (out [16]builtin.Bit) {
+func MUX4WAY16(a, b, c, d [16]builtin.Pin, sel [2]builtin.Pin) (out [16]builtin.Pin) {
 	ab := MUX16(a, b, sel[0])
 	cd := MUX16(c, d, sel[0])
 	out = MUX16(ab, cd, sel[1])
@@ -60,9 +60,9 @@ func MUX4WAY16(a, b, c, d [16]builtin.Bit, sel [2]builtin.Bit) (out [16]builtin.
 //	101 | f
 //	110 | g
 //	111 | h
-func MUX8WAY16(a, b, c, d, e, f, g, h [16]builtin.Bit, sel [3]builtin.Bit) (out [16]builtin.Bit) {
-	abcd := MUX4WAY16(a, b, c, d, [2]builtin.Bit(sel[0:2]))
-	efgh := MUX4WAY16(e, f, g, h, [2]builtin.Bit(sel[0:2]))
+func MUX8WAY16(a, b, c, d, e, f, g, h [16]builtin.Pin, sel [3]builtin.Pin) (out [16]builtin.Pin) {
+	abcd := MUX4WAY16(a, b, c, d, [2]builtin.Pin(sel[0:2]))
+	efgh := MUX4WAY16(e, f, g, h, [2]builtin.Pin(sel[0:2]))
 	out = MUX16(abcd, efgh, sel[2])
 	return
 }
