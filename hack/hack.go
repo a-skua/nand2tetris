@@ -4,7 +4,7 @@ package hack
 import (
 	"iter"
 
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
+	"github.com/a-skua/nand2tetris/hack/builtin"
 )
 
 // Computer is the Hack computer.

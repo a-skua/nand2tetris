@@ -1,7 +1,7 @@
 package chip
 
 import (
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
+	"github.com/a-skua/nand2tetris/hack/builtin"
 	"testing"
 )
 

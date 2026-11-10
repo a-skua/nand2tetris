@@ -1,8 +1,8 @@
 package hack
 
 import (
+	"github.com/a-skua/nand2tetris/hack/builtin"
 	"github.com/a-skua/nand2tetris/hack/chip"
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
 )
 
 // CPU is the Hack CPU.

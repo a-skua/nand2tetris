@@ -1,8 +1,8 @@
 package hack
 
 import (
+	"github.com/a-skua/nand2tetris/hack/builtin"
 	"github.com/a-skua/nand2tetris/hack/chip"
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
 )
 
 // ROM32K is the Hack instruction memory of 32768 16-bit words.

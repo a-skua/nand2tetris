@@ -1,6 +1,6 @@
 package chip
 
-import "github.com/a-skua/nand2tetris/hack/chip/builtin"
+import "github.com/a-skua/nand2tetris/hack/builtin"
 
 // ALU computes out from x and y according to the control bits.
 // zr is 1 if out == 0, and ng is 1 if out < 0.

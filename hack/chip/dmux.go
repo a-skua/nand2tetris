@@ -1,6 +1,6 @@
 package chip
 
-import "github.com/a-skua/nand2tetris/hack/chip/builtin"
+import "github.com/a-skua/nand2tetris/hack/builtin"
 
 // DMUX routes in to a or b according to sel.
 //

@@ -1,6 +1,6 @@
 package chip
 
-import "github.com/a-skua/nand2tetris/hack/chip/builtin"
+import "github.com/a-skua/nand2tetris/hack/builtin"
 
 // Bit is a 1-bit register.
 type Bit struct {

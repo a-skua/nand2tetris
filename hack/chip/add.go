@@ -1,6 +1,6 @@
 package chip
 
-import "github.com/a-skua/nand2tetris/hack/chip/builtin"
+import "github.com/a-skua/nand2tetris/hack/builtin"
 
 // HalfADDER returns the sum and carry of a + b.
 //

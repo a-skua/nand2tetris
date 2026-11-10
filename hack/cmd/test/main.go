@@ -31,7 +31,7 @@ import (
 	"strings"
 
 	"github.com/a-skua/nand2tetris/hack"
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
+	"github.com/a-skua/nand2tetris/hack/builtin"
 )
 
 // memorySize is the number of addressable words of [hack.Memory] (up to Keyboard).

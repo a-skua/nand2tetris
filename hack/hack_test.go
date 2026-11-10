@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/a-skua/nand2tetris/hack/chip/builtin"
+	"github.com/a-skua/nand2tetris/hack/builtin"
 )
 
 // word returns v as a 16-bit value (index 0 is the LSB).
