@@ -109,11 +109,15 @@ func prog(t *testing.T, lines ...string) [][16]builtin.Pin {
 	return words
 }
 
-// run executes cycles instructions.
-func run(c *Computer, cycles int) {
-	for range cycles {
-		c.Clock(builtin.OFF)
+// run executes cycles instructions and returns their addresses.
+func run(c *Computer, cycles int) (pcs [][16]builtin.Pin) {
+	for pc := range c.Clock() {
+		pcs = append(pcs, pc)
+		if len(pcs) >= cycles {
+			break
+		}
 	}
+	return
 }
 
 func TestNewComputer(t *testing.T) {
@@ -125,7 +129,7 @@ func TestNewComputer(t *testing.T) {
 		t.Errorf("after NewComputer: PC, A, D = %v, %v, %v; want all zero", pc, a, d)
 	}
 
-	c.Clock(builtin.OFF)
+	run(c, 1)
 	if pc, d := c.PC.Bits(), c.D.Bits(); pc != word(1) || d != word(1) {
 		t.Errorf("after Clock: PC, D = %v, %v; want %v, %v", pc, d, word(1), word(1))
 	}
@@ -154,8 +158,13 @@ func TestComputerAdd(t *testing.T) {
 		"0000000000000000", // @0
 		"1110001100001000", // M=D
 	))
-	run(c, 6)
+	pcs := run(c, 6)
 
+	for i, pc := range pcs {
+		if pc != word(i) {
+			t.Errorf("cycle %d: executed %v; want %v", i, pc, word(i))
+		}
+	}
 	if got := c.Memory.Clock(word(0), builtin.OFF, addr(0)); got != word(5) {
 		t.Errorf("RAM[0] = %v; want %v", got, word(5))
 	}
@@ -190,13 +199,23 @@ func TestComputerMax(t *testing.T) {
 			c := NewComputer(program)
 			c.Memory.Clock(word(tt.r0), builtin.ON, addr(0))
 			c.Memory.Clock(word(tt.r1), builtin.ON, addr(1))
-			run(c, 14)
+			// Run until the halt loop (15: 0;JMP) is reached.
+			halted, cycles := false, 0
+			for pc := range c.Clock() {
+				if pc == word(15) {
+					halted = true
+					break
+				}
+				if cycles++; cycles >= 100 {
+					break
+				}
+			}
+			if !halted {
+				t.Fatal("did not reach the halt loop in 100 cycles")
+			}
 
 			if got := c.Memory.Clock(word(0), builtin.OFF, addr(2)); got != word(tt.want) {
 				t.Errorf("RAM[2] = %v; want %v", got, word(tt.want))
-			}
-			if pc := c.PC.Bits(); pc != word(14) && pc != word(15) {
-				t.Errorf("PC = %v; want 14 or 15 (halt loop)", pc)
 			}
 		})
 	}
