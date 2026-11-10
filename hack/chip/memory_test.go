@@ -172,3 +172,10 @@ func TestPC(t *testing.T) {
 		})
 	}
 }
+
+func TestRAM8K(t *testing.T) {
+	var ram RAM8K
+	testRAM(t, func(in [16]builtin.Bit, load builtin.Bit, a int) [16]builtin.Bit {
+		return ram.Clock(in, load, [13]builtin.Bit(toBits(a, 13)))
+	}, []int{0, 1, 4095, 4096, 4097, 6000, 8191})
+}

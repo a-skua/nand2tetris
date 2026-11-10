@@ -157,6 +157,22 @@ func (r *RAM4K) Clock(in [16]builtin.Bit, load builtin.Bit, address [12]builtin.
 	return
 }
 
+// RAM8K is a memory of 8192 16-bit registers.
+type RAM8K [2]RAM4K
+
+// Clock returns the register at address, then stores in there if load is 1.
+// address[0:12] selects the register in a [RAM4K] and address[12] selects the RAM4K.
+func (r *RAM8K) Clock(in [16]builtin.Bit, load builtin.Bit, address [13]builtin.Bit) (out [16]builtin.Bit) {
+	low := [12]builtin.Bit(address[0:12])
+	l0, l1 := DMUX(load, address[12])
+	out = MUX16(
+		r[0].Clock(in, l0, low),
+		r[1].Clock(in, l1, low),
+		address[12],
+	)
+	return
+}
+
 // RAM16K is a memory of 16384 16-bit registers.
 type RAM16K struct {
 	rams [4]RAM4K
